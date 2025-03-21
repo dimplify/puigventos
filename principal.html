@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel Principal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #eef2f7;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #0077cc;
+      color: white;
+      padding: 20px;
+      width: 100%;
+      text-align: center;
+      font-size: 1.5rem;
+    }
+
+    .contenedor {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      padding: 40px 20px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .boton {
+      padding: 15px;
+      font-size: 1.1rem;
+      background-color: white;
+      border: 2px solid #0077cc;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-align: center;
+      text-decoration: none;
+      color: #0077cc;
+    }
+
+    .boton:hover {
+      background-color: #0077cc;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    Bienvenida, Admin
+  </header>
+
+  <div class="contenedor">
+    <a href="noticias.html" class="boton">📰 Noticias</a>
+    <a href="presupuesto.html" class="boton">💰 Presupuesto</a>
+    <a href="anuncios.html" class="boton">📌 Tablón de anuncios</a>
+    <a href="avisos.html" class="boton">🚨 Avisos</a>
+  </div>
+</body>
+</html>
