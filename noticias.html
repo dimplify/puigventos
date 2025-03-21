@@ -30,25 +30,36 @@
     </div>
   </div>
 
-  <script>
-    // Simulamos usuario logueado
-    const usuario = "Admin"; // Cambia a otro nombre para ocultar el formulario
+  <!-- Firebase SDK -->
+<script type="module">
+  // Importa las funciones necesarias de Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+  import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
-    // Mostrar el formulario solo si es admin
-    if (usuario === "Admin") {
-      document.getElementById("formulario-admin").classList.remove("hidden");
-    }
+  // Configuración de Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyBMQxAij5M6Y_-YYaIC9TQMwghciYosYeQ",
+    authDomain: "puigventos-app.firebaseapp.com",
+    projectId: "puigventos-app",
+    storageBucket: "puigventos-app.firebasestorage.app",
+    messagingSenderId: "536124512665",
+    appId: "1:536124512665:web:d0e0d1ce16c7cc35df1b08"
+  };
 
-    // Lista de noticias iniciales
-    const noticias = [
-      { titulo: "Mantenimiento de calles", contenido: "El próximo lunes se realizará mantenimiento en las calles principales de la urbanización.", fecha: "21/03/2025" },
-      { titulo: "Nueva normativa de reciclaje", contenido: "Se ha implementado una nueva normativa para la separación de residuos en Puigventós.", fecha: "19/03/2025" },
-      { titulo: "Fiesta comunitaria", contenido: "El próximo sábado tendremos una reunión vecinal con actividades y comida para todos.", fecha: "18/03/2025" }
-    ];
+  // Inicializa Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
 
+  // Referencia a la base de datos
+  const noticiasRef = ref(db, "noticias");
+
+  // Cargar noticias desde Firebase al abrir la web
+  onValue(noticiasRef, (snapshot) => {
     const noticiasContainer = document.getElementById("noticias-container");
+    noticiasContainer.innerHTML = ""; // Limpiar antes de agregar nuevas noticias
 
-    function renderNoticia(noticia) {
+    snapshot.forEach((childSnapshot) => {
+      const noticia = childSnapshot.val();
       const noticiaElemento = document.createElement("div");
       noticiaElemento.classList.add("bg-green-50", "p-4", "rounded-md", "shadow-sm");
       noticiaElemento.innerHTML = `
@@ -57,24 +68,23 @@
         <p class='text-gray-700'>${noticia.contenido}</p>
       `;
       noticiasContainer.prepend(noticiaElemento);
-    }
-
-    noticias.forEach(renderNoticia);
-
-    // Añadir nueva noticia desde el formulario
-    const form = document.getElementById("form-noticia");
-    form?.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const titulo = document.getElementById("titulo").value.trim();
-      const contenido = document.getElementById("contenido").value.trim();
-      if (titulo && contenido) {
-        const hoy = new Date();
-        const fecha = hoy.toLocaleDateString("es-ES");
-        const nuevaNoticia = { titulo, contenido, fecha };
-        renderNoticia(nuevaNoticia);
-        form.reset();
-      }
     });
-  </script>
+  });
+
+  // Guardar nuevas noticias en Firebase
+  document.getElementById("form-noticia")?.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const titulo = document.getElementById("titulo").value.trim();
+    const contenido = document.getElementById("contenido").value.trim();
+    const fecha = new Date().toLocaleDateString("es-ES");
+
+    if (titulo && contenido) {
+      const nuevaNoticiaRef = push(noticiasRef);
+      set(nuevaNoticiaRef, { titulo, contenido, fecha });
+
+      document.getElementById("form-noticia").reset(); // Limpiar formulario
+    }
+  });
+</script>
 </body>
 </html>
