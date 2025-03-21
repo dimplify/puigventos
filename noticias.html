@@ -12,7 +12,7 @@
     📰 Noticias de Puigventós
   </header>
 
-  <!-- Formulario de publicación de noticias -->
+  <!-- Formulario de noticias -->
   <div id="formulario-admin" class="bg-white mt-6 p-6 rounded-lg shadow-lg w-full max-w-2xl">
     <h2 class="text-lg font-semibold text-green-700 mb-4">Añadir Noticia</h2>
     <form id="form-noticia" class="space-y-4">
@@ -32,25 +32,23 @@
 
   <!-- Firebase SDK -->
   <script type="module">
-    // Importa las funciones necesarias de Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
     import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
-    // Configuración de Firebase
+    // Configuración de Firebase con la URL corregida
     const firebaseConfig = {
       apiKey: "AIzaSyBMQxAij5M6Y_-YYaIC9TQMwghciYosYeQ",
       authDomain: "puigventos-app.firebaseapp.com",
+      databaseURL: "https://puigventos-app-default-rtdb.europe-west1.firebasedatabase.app/", // URL corregida
       projectId: "puigventos-app",
       storageBucket: "puigventos-app.firebasestorage.app",
       messagingSenderId: "536124512665",
       appId: "1:536124512665:web:d0e0d1ce16c7cc35df1b08"
     };
 
-    // Inicializa Firebase
+    // Inicializar Firebase
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
-
-    // Referencia a la base de datos
     const noticiasRef = ref(db, "noticias");
 
     // Cargar noticias desde Firebase al abrir la web
